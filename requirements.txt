@@ -1,0 +1,4 @@
+schedule==1.2.0
+secure-smtplib==0.1.1
+pytest==7.4.3
+python-dotenv==1.0.0
