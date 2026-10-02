@@ -1,5 +1,5 @@
 # ⚡ Email Automation & Notification System
-
+https://email-automation-system-dcuh.onrender.com/
 > **Automate • Personalize • Monitor • Schedule**
 >
 > A production-ready, enterprise-grade Email Automation, Personalization, and Inbound Intelligence Web Application built with **Python 3.12+**, **Streamlit**, **SMTP**, **IMAP**, and **SQLite (WAL mode)**. Deployable on Render with full cloud compliance.
