@@ -117,13 +117,27 @@ def seed():
         # Log simulated sends
         db.update_campaign_progress(cid, sent_delta=3, failed_delta=0)
         db.update_campaign_status(cid, 'completed')
-        db.log_campaign_recipient(cid, "sarah.connor@acmetech.io", "Welcome to Acme", status='sent', tracking_id="tr-001")
-        db.log_campaign_recipient(cid, "alex.chen@innovate.co", "Welcome to Innovate", status='sent', tracking_id="tr-002")
-        db.log_campaign_recipient(cid, "elena.rostova@quantumscale.ai", "Welcome to QuantumScale", status='sent', tracking_id="tr-003")
-        db.record_open_tracking("tr-001")
-        db.record_open_tracking("tr-002")
-        db.record_click_tracking("tr-001")
-        print("  [OK] Created sample completed campaign with real-time tracking metrics")
+        # Log sends into sent_emails table for dashboard, history, and statistics
+        conn = db.get_connection()
+        sample_sends = [
+            ("sarah.connor@acmetech.io", "Q3 Platform Updates & New Security Features", "sent", None, 1, "tr-001", "date('now', '-4 days')"),
+            ("alex.chen@innovate.co", "Welcome to AuraMail Automation Platform", "sent", None, 1, "tr-002", "date('now', '-3 days')"),
+            ("elena.rostova@quantumscale.ai", "Your API Key and Dashboard Credentials", "sent", None, 1, "tr-003", "date('now', '-2 days')"),
+            ("marcus.vance@apexprime.net", "Weekly Automation Digest & Performance Review", "sent", None, 0, "tr-004", "date('now', '-1 days')"),
+            ("david.beck@novacorp.com", "Urgent: Complete your Workspace Verification", "failed", "SMTP 550: Mailbox quota exceeded", 0, "tr-005", "date('now', '-1 days')"),
+            ("john.doe@example.com", "Hello John Doe, welcome to Acme Corp!", "sent", None, 1, "tr-006", "datetime('now', '-3 hours')"),
+            ("jane.smith@example.com", "Hello Jane Smith, welcome to Tech Solutions!", "sent", None, 1, "tr-007", "datetime('now', '-2 hours')"),
+            ("bob.johnson@example.com", "Hello Bob Johnson, welcome to Digital Ventures!", "sent", None, 0, "tr-008", "datetime('now', '-30 minutes')"),
+        ]
+        for recip, subj, stat, err, opn, trk, tm_expr in sample_sends:
+            conn.execute(f'''
+                INSERT INTO sent_emails (recipient, subject, status, error_message, is_html, tracking_id, opened, sent_at)
+                VALUES (?, ?, ?, ?, 1, ?, ?, {tm_expr})
+            ''', (recip, subj, stat, err, trk, opn))
+        conn.commit()
+        conn.close()
+
+        print("  [OK] Populated sent_emails table with initial sample dispatches")
 
     db.log_activity('system_seeded', "Populated database with demo enterprise dataset.")
     print("[SUCCESS] Demo seeding complete! The platform is primed and ready.")

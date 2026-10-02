@@ -39,6 +39,7 @@ def render_bulk_email():
     csv_text = None
     if uploaded_file is not None:
         csv_text = uploaded_file.getvalue().decode('utf-8-sig', errors='ignore')
+        st.session_state['bulk_csv_text'] = csv_text
     elif use_sample or 'bulk_csv_text' in st.session_state:
         if use_sample:
             sample_path = os.path.join("data", "sample_recipients.csv")
@@ -50,18 +51,18 @@ def render_bulk_email():
                     st.session_state['bulk_csv_text'] = csv_text
         else:
             csv_text = st.session_state.get('bulk_csv_text')
+    else:
+        # Preload sample dataset by default so the entire UI, preview, and send buttons are ready
+        sample_path = os.path.join("data", "sample_recipients.csv")
+        if not os.path.exists(sample_path):
+            sample_path = "sample_recipients.csv"
+        if os.path.exists(sample_path):
+            with open(sample_path, "r", encoding="utf-8-sig") as f:
+                csv_text = f.read()
+                st.session_state['bulk_csv_text'] = csv_text
 
     if not csv_text:
         st.info("👆 Please upload a CSV file or click **'Load Demo CSV'** to begin.")
-        st.markdown("""
-        **Example CSV Structure:**
-        ```csv
-        email,name,company
-        john.doe@example.com,John Doe,Acme Corp
-        jane.smith@example.com,Jane Smith,Tech Solutions
-        bob.johnson@example.com,Bob Johnson,Digital Ventures
-        ```
-        """)
         return
 
     # Parse and Validate CSV

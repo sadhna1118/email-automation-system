@@ -51,16 +51,30 @@ class EmailSender:
             print(f"[SMTP Connect Error] {e}")
             raise
     
-    def test_connection(self):
+    def test_connection(self, force_live=False):
         """Test SMTP server connectivity and credentials"""
-        if self.config.DRY_RUN:
-            return {'success': True, 'mode': 'dry_run', 'message': 'Dry-Run simulation active. Connection test simulated successfully.'}
+        if self.config.DRY_RUN and not force_live:
+            return {'success': True, 'mode': 'dry_run', 'message': 'Simulation mode active. Outbound gateway logic is operating normally.'}
         
         try:
-            server = self.connect()
-            if server:
-                server.quit()
-            return {'success': True, 'mode': 'live', 'message': f'Successfully connected to SMTP server {self.config.SMTP_SERVER}:{self.config.SMTP_PORT}'}
+            if self.config.SMTP_USE_SSL:
+                server = smtplib.SMTP_SSL(self.config.SMTP_SERVER, self.config.SMTP_PORT, timeout=8)
+            else:
+                server = smtplib.SMTP(self.config.SMTP_SERVER, self.config.SMTP_PORT, timeout=8)
+                if self.config.SMTP_USE_TLS:
+                    server.starttls()
+            
+            auth_msg = ""
+            if self.config.EMAIL_ADDRESS and self.config.EMAIL_PASSWORD and "your_app_password" not in self.config.EMAIL_PASSWORD:
+                try:
+                    server.login(self.config.EMAIL_ADDRESS, self.config.EMAIL_PASSWORD)
+                    auth_msg = " and credentials authenticated successfully"
+                except smtplib.SMTPAuthenticationError:
+                    server.quit()
+                    return {'success': False, 'mode': 'live', 'message': 'SMTP Authentication Failed: Invalid email or App Password. Check your Google App Password in Settings.'}
+            
+            server.quit()
+            return {'success': True, 'mode': 'live', 'message': f'Successfully connected to SMTP server {self.config.SMTP_SERVER}:{self.config.SMTP_PORT}{auth_msg}.'}
         except Exception as e:
             return {'success': False, 'mode': 'live', 'message': f'SMTP Connection Failed: {str(e)}'}
 

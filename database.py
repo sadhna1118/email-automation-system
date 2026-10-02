@@ -469,7 +469,9 @@ class EmailDatabase:
             json.dumps(metadata) if isinstance(metadata, dict) else metadata
         ))
         conn.commit()
-        contact_id = cursor.lastrowid
+        cursor.execute('SELECT id FROM contacts WHERE email = ?', (email.strip().lower(),))
+        row = cursor.fetchone()
+        contact_id = row['id'] if row else cursor.lastrowid
         conn.close()
         return contact_id
 
@@ -513,9 +515,14 @@ class EmailDatabase:
         conn.close()
 
     def create_contact_list(self, name, description=None):
-        """Create a contact list / audience segment"""
+        """Create a contact list / audience segment (or return existing ID)"""
         conn = self.get_connection()
         cursor = conn.cursor()
+        cursor.execute('SELECT id FROM contact_lists WHERE name = ?', (name,))
+        row = cursor.fetchone()
+        if row:
+            conn.close()
+            return row['id']
         cursor.execute('INSERT INTO contact_lists (name, description) VALUES (?, ?)', (name, description))
         conn.commit()
         list_id = cursor.lastrowid

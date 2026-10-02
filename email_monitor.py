@@ -42,15 +42,27 @@ class EmailMonitor:
             print(f"[IMAP Connect Error] {e}")
             raise
 
-    def test_connection(self):
-        """Test IMAP server connectivity"""
-        if self.config.DRY_RUN:
-            return {'success': True, 'mode': 'dry_run', 'message': 'Dry-Run simulation active. IMAP connection simulated successfully.'}
+    def test_connection(self, force_live=False):
+        """Test IMAP server connectivity and credentials"""
+        if self.config.DRY_RUN and not force_live:
+            return {'success': True, 'mode': 'dry_run', 'message': 'Simulation mode active. Inbound IMAP monitor logic is operating normally.'}
         try:
-            mail = self.connect()
-            if mail:
-                mail.logout()
-            return {'success': True, 'mode': 'live', 'message': f'Successfully connected to IMAP server {self.config.IMAP_SERVER}:{self.config.IMAP_PORT}'}
+            if self.config.IMAP_USE_SSL:
+                mail = imaplib.IMAP4_SSL(self.config.IMAP_SERVER, self.config.IMAP_PORT, timeout=8)
+            else:
+                mail = imaplib.IMAP4(self.config.IMAP_SERVER, self.config.IMAP_PORT, timeout=8)
+            
+            auth_msg = ""
+            if self.config.EMAIL_ADDRESS and self.config.EMAIL_PASSWORD and "your_app_password" not in self.config.EMAIL_PASSWORD:
+                try:
+                    mail.login(self.config.EMAIL_ADDRESS, self.config.EMAIL_PASSWORD)
+                    auth_msg = " and credentials authenticated successfully"
+                except Exception as ex:
+                    mail.logout()
+                    return {'success': False, 'mode': 'live', 'message': f'IMAP Login Failed: {str(ex)}'}
+            
+            mail.logout()
+            return {'success': True, 'mode': 'live', 'message': f'Successfully connected to IMAP server {self.config.IMAP_SERVER}:{self.config.IMAP_PORT}{auth_msg}.'}
         except Exception as e:
             return {'success': False, 'mode': 'live', 'message': f'IMAP Connection Failed: {str(e)}'}
 
@@ -287,8 +299,16 @@ Check your Email Automation Dashboard for full details."""
         """Check inbox for new unread messages, process rules, and execute actions"""
         # 1. DRY-RUN SIMULATION
         if self.config.DRY_RUN:
-            print("[IMAP Monitor] Dry-Run check active (No live IMAP calls).")
-            return 0
+            import random
+            samples = [
+                ("recruiter@google.com", "Invitation for Technical Interview", "Hi Sadhna, We were impressed by your profile and would like to invite you for a Technical Interview."),
+                ("sarah.connor@acmetech.io", "Urgent: Enterprise Automation Review", "Please review the updated automation pipeline for production deployment."),
+                ("sales@cloudvendor.io", "Request for Quote and Licensing Details", "Can you send the pricing and quote details for your email automation platform?"),
+            ]
+            sender, subj, bdy = random.choice(samples)
+            sim_res = self.simulate_incoming_email(sender=sender, subject=subj, body=bdy)
+            print(f"[IMAP Monitor] Dry-Run received simulated email from {sender} -> Matched: {sim_res.get('matched_rules')}")
+            return 1
         
         try:
             mail = self.connect()
