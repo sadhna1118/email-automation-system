@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraMail Pro — Enterprise Email Automation & Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="brand-text">
+          <h2>AuraMail <span>PRO</span></h2>
+          <p>Email Intelligence OS</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-group-title">MAIN</div>
+        <button class="nav-item active" data-tab="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-tab="campaigns">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span>Campaigns</span>
+          <span class="badge" id="badge-campaigns">0</span>
+        </button>
+        <button class="nav-item" data-tab="composer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span>Quick Send</span>
+        </button>
+        <button class="nav-item" data-tab="templates">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Template Studio</span>
+        </button>
+
+        <div class="nav-group-title">AUDIENCE & INBOX</div>
+        <button class="nav-item" data-tab="contacts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Audience & CSV</span>
+        </button>
+        <button class="nav-item" data-tab="inbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          <span>Live Inbox</span>
+          <span class="badge live-badge" id="badge-inbox">0</span>
+        </button>
+        <button class="nav-item" data-tab="rules">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Smart Rules</span>
+        </button>
+
+        <div class="nav-group-title">AUTOMATION & SYSTEM</div>
+        <button class="nav-item" data-tab="scheduler">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Task Scheduler</span>
+        </button>
+        <button class="nav-item" data-tab="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>SMTP & Settings</span>
+        </button>
+      </nav>
+
+      <!-- System Status Footer -->
+      <div class="sidebar-footer">
+        <div class="status-indicator">
+          <span class="pulse-dot" id="system-status-dot"></span>
+          <div class="status-text">
+            <div class="status-title" id="system-mode-label">Simulation Mode</div>
+            <div class="status-sub" id="system-server-label">Ready & Active</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header Bar -->
+      <header class="top-header">
+        <div class="header-left">
+          <h1 id="page-title">Dashboard Overview</h1>
+          <p id="page-subtitle">Real-time performance analytics and system metrics</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary" id="btn-seed-data" title="Populate realistic demo records">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            <span>Demo Data</span>
+          </button>
+          <button class="btn btn-primary" id="btn-header-quick-send">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <span>New Email</span>
+          </button>
+          <button class="btn btn-glow" id="btn-header-new-campaign">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Launch Campaign</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Views Container -->
+      <div class="content-body">
+        
+        <!-- 1. DASHBOARD VIEW -->
+        <section id="view-dashboard" class="tab-view active">
+          <!-- Metric Stat Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Total Sent</span>
+                <div class="stat-icon icon-indigo">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+              <div class="stat-value" id="stat-sent">0</div>
+              <div class="stat-sub positive"><span id="stat-delivery-rate">100%</span> delivery rate</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Email Opens</span>
+                <div class="stat-icon icon-emerald">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+              </div>
+              <div class="stat-value" id="stat-opened">0</div>
+              <div class="stat-sub"><span id="stat-open-rate">0%</span> engagement</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Click Tracking</span>
+                <div class="stat-icon icon-amber">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                </div>
+              </div>
+              <div class="stat-value" id="stat-clicked">0</div>
+              <div class="stat-sub"><span id="stat-click-rate">0%</span> CTR conversion</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-label">Monitored Emails</span>
+                <div class="stat-icon icon-violet">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/></svg>
+                </div>
+              </div>
+              <div class="stat-value" id="stat-monitored">0</div>
+              <div class="stat-sub"><span id="stat-active-rules">0</span> active rule filters</div>
+            </div>
+          </div>
+
+          <!-- Charts & Activity Row -->
+          <div class="grid-2col">
+            <!-- 7-Day Chart -->
+            <div class="glass-panel chart-panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Sending & Delivery Trend</h3>
+                  <p>7-day email volume breakdown</p>
+                </div>
+                <div class="badge badge-outline">Last 7 Days</div>
+              </div>
+              <div class="chart-container">
+                <canvas id="dailyChart" width="560" height="220"></canvas>
+              </div>
+            </div>
+
+            <!-- Live Activity Stream -->
+            <div class="glass-panel activity-panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Live Activity Log</h3>
+                  <p>Real-time system events</p>
+                </div>
+                <button class="btn btn-sm btn-secondary" onclick="loadDashboard()">Refresh</button>
+              </div>
+              <div class="activity-list" id="activity-list">
+                <div class="empty-state">No recent activity</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. CAMPAIGNS VIEW -->
+        <section id="view-campaigns" class="tab-view">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <h2>Bulk Email Campaigns</h2>
+              <p>Automate targeted email broadcasts with throttling & live progress</p>
+            </div>
+            <button class="btn btn-glow" id="btn-create-campaign-modal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Create Campaign</span>
+            </button>
+          </div>
+
+          <div class="campaigns-grid" id="campaigns-container">
+            <div class="empty-state">Loading campaigns...</div>
+          </div>
+        </section>
+
+        <!-- 3. COMPOSER / QUICK SEND VIEW -->
+        <section id="view-composer" class="tab-view">
+          <div class="composer-layout">
+            <!-- Composer Form -->
+            <div class="glass-panel composer-form-panel">
+              <div class="panel-header">
+                <h3>Email Composer</h3>
+                <div class="composer-header-actions">
+                  <select id="composer-template-select" class="form-select">
+                    <option value="">-- Load a Template --</option>
+                  </select>
+                </div>
+              </div>
+
+              <form id="composer-form">
+                <div class="form-group">
+                  <label>Recipient Email *</label>
+                  <input type="email" id="composer-to" class="form-input" placeholder="recipient@example.com" required>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>CC (Optional)</label>
+                    <input type="text" id="composer-cc" class="form-input" placeholder="cc1@example.com, cc2@example.com">
+                  </div>
+                  <div class="form-group">
+                    <label>BCC (Optional)</label>
+                    <input type="text" id="composer-bcc" class="form-input" placeholder="bcc@example.com">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Subject Line *</label>
+                  <input type="text" id="composer-subject" class="form-input" placeholder="Exciting updates for your team..." required>
+                </div>
+
+                <!-- Template Variable Chips -->
+                <div class="var-chips-container">
+                  <span class="chips-label">Insert Tag:</span>
+                  <button type="button" class="chip" onclick="insertVariable('name')">{name}</button>
+                  <button type="button" class="chip" onclick="insertVariable('company')">{company}</button>
+                  <button type="button" class="chip" onclick="insertVariable('unsubscribe_url')">{unsubscribe_url}</button>
+                </div>
+
+                <div class="form-group">
+                  <div class="label-row">
+                    <label>Email Body (HTML / Markdown Supported)</label>
+                    <label class="switch-label">
+                      <input type="checkbox" id="composer-is-html" checked>
+                      <span>Send as Rich HTML</span>
+                    </label>
+                  </div>
+                  <textarea id="composer-body" class="form-textarea" rows="12" placeholder="Write your email body or paste HTML here..." required></textarea>
+                </div>
+
+                <div class="composer-actions">
+                  <button type="button" class="btn btn-secondary" id="btn-check-spam-composer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Check Spam Score</span>
+                  </button>
+                  <button type="submit" class="btn btn-glow" id="btn-send-email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    <span>Send Message Now</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Live Preview & Spam Inspector Panel -->
+            <div class="glass-panel preview-panel">
+              <div class="panel-header">
+                <h3>Live Preview</h3>
+                <div class="viewport-toggle">
+                  <button class="btn-icon active" id="btn-viewport-desktop" title="Desktop View">🖥️</button>
+                  <button class="btn-icon" id="btn-viewport-mobile" title="Mobile View">📱</button>
+                </div>
+              </div>
+
+              <div class="preview-frame-wrapper" id="preview-frame-wrapper">
+                <div class="preview-subject" id="preview-subject-bar">Subject: (Type a subject to preview)</div>
+                <iframe id="preview-iframe" class="preview-iframe" sandbox="allow-same-origin"></iframe>
+              </div>
+
+              <!-- Spam Score Result Box -->
+              <div class="spam-score-box" id="spam-score-box" style="display: none;">
+                <div class="spam-header">
+                  <div>Spam Deliverability Score</div>
+                  <div class="spam-badge" id="spam-score-badge">0 / 100 Safe</div>
+                </div>
+                <div class="spam-reasons" id="spam-reasons-list"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. TEMPLATE STUDIO VIEW -->
+        <section id="view-templates" class="tab-view">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <h2>Template Studio</h2>
+              <p>Design, edit, and organize responsive HTML email templates</p>
+            </div>
+            <button class="btn btn-glow" id="btn-create-template-modal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>New Template</span>
+            </button>
+          </div>
+
+          <div class="templates-grid" id="templates-container">
+            <div class="empty-state">Loading templates...</div>
+          </div>
+        </section>
+
+        <!-- 5. AUDIENCE & CSV MANAGER VIEW -->
+        <section id="view-contacts" class="tab-view">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <h2>Audience & Contact Lists</h2>
+              <p>Import contacts via CSV with validation and manage subscriber segments</p>
+            </div>
+            <div class="toolbar-actions">
+              <button class="btn btn-secondary" id="btn-new-list-modal">Create List</button>
+              <button class="btn btn-glow" id="btn-import-csv-modal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span>Import CSV File</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Lists & Contacts Layout -->
+          <div class="audience-layout">
+            <!-- Lists Sidebar -->
+            <div class="glass-panel lists-panel">
+              <div class="panel-header">
+                <h3>Contact Lists</h3>
+              </div>
+              <div class="lists-container" id="contact-lists-container">
+                <div class="empty-state">Loading lists...</div>
+              </div>
+            </div>
+
+            <!-- Contacts Table Panel -->
+            <div class="glass-panel contacts-table-panel">
+              <div class="panel-header">
+                <div>
+                  <h3 id="contacts-table-title">All Subscribers</h3>
+                  <p id="contacts-table-sub">0 total contacts</p>
+                </div>
+                <div class="search-box">
+                  <input type="text" id="contacts-search-input" class="form-input" placeholder="Search contacts...">
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Email Address</th>
+                      <th>Name</th>
+                      <th>Company</th>
+                      <th>Status</th>
+                      <th>Created</th>
+                    </tr>
+                  </thead>
+                  <tbody id="contacts-tbody">
+                    <tr><td colspan="5" class="empty-cell">No contacts found</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. LIVE INBOX VIEW -->
+        <section id="view-inbox" class="tab-view">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <h2>Monitored Email Inbox</h2>
+              <p>Inspect incoming emails captured by IMAP listener and rule triggers</p>
+            </div>
+            <div class="toolbar-actions">
+              <button class="btn btn-secondary" id="btn-simulate-email-modal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Simulate Incoming Email</span>
+              </button>
+              <button class="btn btn-primary" id="btn-check-inbox-now">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                <span>Check Inbox Now</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="inbox-layout">
+            <div class="glass-panel inbox-list-panel">
+              <div class="panel-header">
+                <h3>Incoming Messages</h3>
+                <span class="badge" id="inbox-count-badge">0</span>
+              </div>
+              <div class="inbox-list" id="inbox-messages-list">
+                <div class="empty-state">No monitored messages</div>
+              </div>
+            </div>
+
+            <!-- Email Detail View -->
+            <div class="glass-panel inbox-detail-panel" id="inbox-detail-panel">
+              <div class="empty-state">Select an email from the list to view contents</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. SMART RULES VIEW -->
+        <section id="view-rules" class="tab-view">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <h2>Smart Notification & Automation Rules</h2>
+              <p>Configure automated triggers, alerts, auto-replies, and webhook events</p>
+            </div>
+            <button class="btn btn-glow" id="btn-create-rule-modal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Create Smart Rule</span>
+            </button>
+          </div>
+
+          <div class="rules-grid" id="rules-container">
+            <div class="empty-state">Loading rules...</div>
+          </div>
+        </section>
+
+        <!-- 8. SCHEDULER VIEW -->
+        <section id="view-scheduler" class="tab-view">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <h2>Persistent Task Scheduler</h2>
+              <p>Automate recurring inbox checks, bulk email sends, and performance digests</p>
+            </div>
+          </div>
+
+          <div class="glass-panel">
+            <div class="panel-header">
+              <h3>Scheduled Automation Tasks</h3>
+            </div>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Task Name</th>
+                    <th>Type</th>
+                    <th>Schedule</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="scheduler-tbody">
+                  <tr><td colspan="5" class="empty-cell">Loading scheduled tasks...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. SETTINGS VIEW -->
+        <section id="view-settings" class="tab-view">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <h2>System Settings & SMTP Configuration</h2>
+              <p>Manage credentials, simulation dry-run mode, and test email connections</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- SMTP Settings Panel -->
+            <div class="glass-panel">
+              <div class="panel-header">
+                <h3>SMTP Outgoing Mail Settings</h3>
+                <button class="btn btn-sm btn-secondary" id="btn-test-smtp">Test SMTP Connection</button>
+              </div>
+
+              <form id="settings-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>SMTP Server Host</label>
+                    <input type="text" id="cfg-smtp-server" class="form-input" required>
+                  </div>
+                  <div class="form-group">
+                    <label>SMTP Port</label>
+                    <input type="number" id="cfg-smtp-port" class="form-input" required>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="switch-label">
+                      <input type="checkbox" id="cfg-smtp-tls">
+                      <span>Enable STARTTLS</span>
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="switch-label">
+                      <input type="checkbox" id="cfg-smtp-ssl">
+                      <span>Enable SSL</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Email Address / Username</label>
+                    <input type="email" id="cfg-email-address" class="form-input" placeholder="user@gmail.com">
+                  </div>
+                  <div class="form-group">
+                    <label>App Password / Token</label>
+                    <input type="password" id="cfg-email-password" class="form-input" placeholder="••••••••••••••••">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Sender Display Name</label>
+                  <input type="text" id="cfg-sender-name" class="form-input" placeholder="Email Automation System">
+                </div>
+
+                <div class="divider"></div>
+
+                <h3>IMAP Incoming Mail Settings</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>IMAP Server Host</label>
+                    <input type="text" id="cfg-imap-server" class="form-input" required>
+                  </div>
+                  <div class="form-group">
+                    <label>IMAP Port</label>
+                    <input type="number" id="cfg-imap-port" class="form-input" required>
+                  </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3>Throttling, Safety & Tracking</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="switch-label">
+                      <input type="checkbox" id="cfg-dry-run">
+                      <span style="color:#60a5fa; font-weight:600;">Simulation / Dry-Run Mode (Safe Testing)</span>
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="switch-label">
+                      <input type="checkbox" id="cfg-tracking-enabled">
+                      <span>Open & Click Tracking</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Delay Between Emails (Seconds)</label>
+                    <input type="number" step="0.1" id="cfg-rate-limit" class="form-input" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Batch Size (Emails per batch)</label>
+                    <input type="number" id="cfg-batch-size" class="form-input" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Notification Alert Recipient Email</label>
+                  <input type="email" id="cfg-notification-email" class="form-input" placeholder="alerts@example.com">
+                </div>
+
+                <div class="form-group">
+                  <label>Global Webhook URL (Slack / Discord / Custom)</label>
+                  <input type="url" id="cfg-webhook-url" class="form-input" placeholder="https://hooks.slack.com/services/...">
+                </div>
+
+                <div style="margin-top: 24px;">
+                  <button type="submit" class="btn btn-glow">Save Configuration</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODALS -->
+
+  <!-- Modal: Launch Campaign -->
+  <div class="modal-backdrop" id="modal-campaign">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Launch New Bulk Campaign</h3>
+        <button class="modal-close" onclick="closeModals()">&times;</button>
+      </div>
+      <form id="form-new-campaign">
+        <div class="form-group">
+          <label>Campaign Name *</label>
+          <input type="text" id="campaign-name-input" class="form-input" placeholder="Q4 Product Launch Announcement" required>
+        </div>
+        <div class="form-group">
+          <label>Select Template *</label>
+          <select id="campaign-template-select" class="form-select" required></select>
+        </div>
+        <div class="form-group">
+          <label>Select Target Contact List *</label>
+          <select id="campaign-list-select" class="form-select" required></select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Delay Between Emails (s)</label>
+            <input type="number" step="0.5" id="campaign-delay-input" class="form-input" value="1.0">
+          </div>
+          <div class="form-group">
+            <label>Batch Size</label>
+            <input type="number" id="campaign-batch-input" class="form-input" value="50">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+          <button type="submit" class="btn btn-glow">Create & Launch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: New Template -->
+  <div class="modal-backdrop" id="modal-template">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h3>Create Email Template</h3>
+        <button class="modal-close" onclick="closeModals()">&times;</button>
+      </div>
+      <form id="form-new-template">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Template Name *</label>
+            <input type="text" id="tmpl-name-input" class="form-input" placeholder="Special Offer Promo" required>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="tmpl-category-input" class="form-select">
+              <option value="marketing">Marketing</option>
+              <option value="onboarding">Onboarding</option>
+              <option value="transactional">Transactional</option>
+              <option value="alerts">Alerts</option>
+              <option value="general">General</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Subject Line Template *</label>
+          <input type="text" id="tmpl-subject-input" class="form-input" placeholder="Hello {{ name }}, check this out!" required>
+        </div>
+        <div class="form-group">
+          <label>HTML Content Template *</label>
+          <textarea id="tmpl-html-input" class="form-textarea" rows="10" placeholder="<!DOCTYPE html><html>...</html>" required></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+          <button type="submit" class="btn btn-glow">Save Template</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Import CSV -->
+  <div class="modal-backdrop" id="modal-csv">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Import Audience from CSV</h3>
+        <button class="modal-close" onclick="closeModals()">&times;</button>
+      </div>
+      <form id="form-import-csv">
+        <div class="form-group">
+          <label>Target Contact List Name</label>
+          <input type="text" id="csv-list-name" class="form-input" placeholder="VIP Beta Testers" required>
+        </div>
+        <div class="form-group">
+          <label>CSV File (with headers: email, name, company, etc.)</label>
+          <div class="dropzone" id="csv-dropzone">
+            <input type="file" id="csv-file-input" accept=".csv" required style="display:none;">
+            <div id="dropzone-text">📁 Drag & Drop your .CSV file here, or click to browse</div>
+          </div>
+        </div>
+        <div id="csv-preview-feedback" class="csv-feedback" style="display:none;"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+          <button type="submit" class="btn btn-glow">Upload & Import</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Smart Rule -->
+  <div class="modal-backdrop" id="modal-rule">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Create Smart Automation Rule</h3>
+        <button class="modal-close" onclick="closeModals()">&times;</button>
+      </div>
+      <form id="form-new-rule">
+        <div class="form-group">
+          <label>Rule Name *</label>
+          <input type="text" id="rule-name-input" class="form-input" placeholder="Urgent Support Alert" required>
+        </div>
+        <div class="form-group">
+          <label>Sender Contains (e.g. @client.com)</label>
+          <input type="text" id="rule-sender-input" class="form-input" placeholder="vip-client@example.com">
+        </div>
+        <div class="form-group">
+          <label>Subject Contains (e.g. urgent, invoice, bug)</label>
+          <input type="text" id="rule-subject-input" class="form-input" placeholder="urgent">
+        </div>
+        <div class="form-group">
+          <label>Body Keywords Contains</label>
+          <input type="text" id="rule-keyword-input" class="form-input" placeholder="payment, issue, down">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Condition Match Logic</label>
+            <select id="rule-logic-select" class="form-select">
+              <option value="AND">All conditions must match (AND)</option>
+              <option value="OR">Any condition can match (OR)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Action to Execute</label>
+            <select id="rule-action-select" class="form-select">
+              <option value="alert">Dispatch Alert to Admin Email</option>
+              <option value="auto_reply">Send Instant Auto-Reply</option>
+              <option value="webhook">POST to Webhook</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+          <button type="submit" class="btn btn-glow">Save Rule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Simulate Email -->
+  <div class="modal-backdrop" id="modal-simulate">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Simulate Incoming Email</h3>
+        <button class="modal-close" onclick="closeModals()">&times;</button>
+      </div>
+      <form id="form-simulate-email">
+        <div class="form-group">
+          <label>Simulated Sender *</label>
+          <input type="email" id="sim-sender-input" class="form-input" value="client@partner.com" required>
+        </div>
+        <div class="form-group">
+          <label>Subject *</label>
+          <input type="text" id="sim-subject-input" class="form-input" value="Urgent question regarding the proposal" required>
+        </div>
+        <div class="form-group">
+          <label>Body Preview / Content *</label>
+          <textarea id="sim-body-input" class="form-textarea" rows="4" required>Hello, we need an urgent response on the delivery timeline.</textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+          <button type="submit" class="btn btn-glow">Trigger Simulation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

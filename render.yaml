@@ -1,0 +1,47 @@
+services:
+  # 1. Main Web Service: Streamlit Automation Dashboard
+  - type: web
+    name: email-automation-system
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.4
+      - key: DRY_RUN
+        value: "true"
+      - key: SMTP_SERVER
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: IMAP_SERVER
+        value: imap.gmail.com
+      - key: IMAP_PORT
+        value: "993"
+      - key: EMAIL_ADDRESS
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: NOTIFICATION_EMAIL
+        sync: false
+      - key: CHECK_INTERVAL
+        value: "300"
+      - key: DB_PATH
+        value: emails.db
+
+  # 2. Recommended Worker Service for 24/7 Background IMAP Monitoring & Scheduling (Optional Render Worker)
+  # - type: worker
+  #   name: email-automation-worker
+  #   env: python
+  #   region: oregon
+  #   plan: free
+  #   buildCommand: pip install -r requirements.txt
+  #   startCommand: python main.py --monitor
+  #   envVars:
+  #     - fromService:
+  #         type: web
+  #         name: email-automation-system
+  #         envVarKey: EMAIL_ADDRESS
